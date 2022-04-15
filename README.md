@@ -2,6 +2,10 @@
 
 项目基础脚手架
 
+### 使用脚手架
+
+npx degit https://github.com/WangQing99/celebrate-vite your-project-name
+
 ### 安装依赖
 
 pnpm install
