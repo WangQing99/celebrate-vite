@@ -25,3 +25,9 @@ declare global {
         VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean;
     }
 }
+
+declare module 'vue' {
+    export type JSXComponent<Props = any> =
+        | { new(): ComponentPublicInstance<Props> }
+        | FunctionalComponent<Props>;
+}

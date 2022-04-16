@@ -25,7 +25,8 @@ export function configAutoImports() {
             imports: [
                 'vue',
                 'vue-router',
-                'vue/macros'
+                'vue/macros',
+                "@vueuse/core"
             ],
             dts: 'types/auto-imports.d.ts'
         })

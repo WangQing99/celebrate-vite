@@ -1,5 +1,4 @@
 import '@unocss/reset/tailwind.css'
-import './styles/main.css'
 import 'uno.css'
 
 import { createApp } from "vue"
@@ -13,7 +12,7 @@ function bootstrap() {
     // 路由配置
     setupRouter(app);
 
-    // store配置
+    // store配置l
     setupStore(app)
 
     app.mount("#app")

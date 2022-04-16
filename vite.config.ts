@@ -1,8 +1,11 @@
 import type { ConfigEnv, UserConfig } from "vite"
 import { loadEnv } from 'vite'
+
 import createVitePlugins from "./vite/plugins"
 import { alias, createProxy } from './vite/config'
 import { wrapperEnv } from "./vite/utils";
+
+import { generateModifyVars } from "./config/generateModifyVars"
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
     const root = process.cwd();
@@ -16,7 +19,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         base: VITE_PUBLIC_PATH,
         root,
         resolve: {
-            alias
+            alias,
+            extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
         },
         server: {
             https: true,
@@ -26,6 +30,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
         esbuild: {
             pure: VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : [],
+        },
+        css: {
+            preprocessorOptions: {
+                less: {
+                    modifyVars: generateModifyVars(),
+                    javascriptEnabled: true,
+                }
+            }
         },
         plugins: createVitePlugins(viteEnv, isBuild),
         optimizeDeps: {

@@ -1,30 +1,58 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "ESNext",
-    "target": "es2016",
-    "lib": ["DOM", "ESNext"],
-    "strict": true,
-    "esModuleInterop": true,
-    "incremental": false,
-    "skipLibCheck": true,
+    // 目标语言的版本
+    "target": "esnext",
+    // 生成代码的模板标准
+    "module": "esnext",
+    // ⽤于选择模块解析策略
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
+    // 严格模式
+    "strict": true,
+    // 强制文件名中的大小写一致
     "forceConsistentCasingInFileNames": true,
+    // 如果没有为⼀些值设置明确的类型，编译器会默认认为这个值为any
+    "noImplicitAny": false,
+    // 允许默认导入
+    "allowSyntheticDefaultImports": true,
+    // jsx代码⽤于的开发环境
+    "jsx": "preserve",
+    // baseUrl⽤于设置解析⾮相对模块名称的基本⽬录，相对模块不会受baseUrl的影响
+    "baseUrl": ".",
+    // 指定是否允许编译js⽂件，默认是false，即不编译js⽂件
+    "allowJs": true,
+    // 指定编译时是否⽣成.map⽂件
+    "sourceMap": true,
+    // 通过为导⼊内容创建命名空间，实现CommonJS和ES模块之间的互操作性
+    "esModuleInterop": true,
+    // 解析 JSON 模块 允许导入扩展名为“.json”的模块
+    "resolveJsonModule": true,
+    // ⽤于检查是否有定义了但是没有使⽤的变量
+    "noUnusedLocals": true,
+    // 检查是否有在函数体中没有使⽤的参数
+    "noUnusedParameters": true,
+    // 是否启⽤实验性的装饰器特性
+    "experimentalDecorators": true,
+    // 要包含在编译中的库⽂件
+    "lib": ["dom", "esnext"],
+    // 跳过默认库声明文件的类型检查 可以节省编译期间的时间，但会牺牲类型系统的准确性
+    "skipLibCheck": true,
+    // 是否将编译后的⽂件中的注释删掉，设为true的话即删掉注释
+    "removeComments": true,
+    // 指定需要包含的模块，只有在这⾥列出的模块的声明⽂件才会被加载进来
     "types": [
       "vite/client",
       "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
     ],
+    // 设置模块名称到基于baseUrl的路径映射
     "paths": {
       "@/*": ["./src/*"],
       "#/*": ["./types/*"],
       "~/*": ["./*"]
     }
   },
+  // 指定要编译的路径列表，但是和files的区别在于，这⾥的路径可以是⽂件夹，也可以是⽂件，可以使⽤相对和绝对路径，⽽且可以使⽤通配符
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
@@ -34,7 +62,10 @@
     "types/**/*.ts",
     "vite/**/*.ts",
     "vite.config.ts",
-    "mock/**/*.ts"
+    "mock/**/*.ts",
+    "config/**/*.ts",
+    "config/**/*.d.ts"
   ],
+  // 表⽰要排除的、不编译的⽂件，它也可以指定⼀个列表，规则和include⼀样，可以是⽂件或⽂件夹，可以是相对路径或绝对路径，可以使⽤通配符
   "exclude": ["dist", "node_modules", "cypress"]
 }

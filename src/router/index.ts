@@ -6,6 +6,8 @@ import { setupLayouts } from 'virtual:generated-layouts'
 
 const routes = setupLayouts(generatedRoutes)
 
+console.log(routes);
+
 export const router = createRouter({
     history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
     routes: routes as RouteRecordRaw[],

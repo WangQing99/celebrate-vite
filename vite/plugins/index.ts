@@ -1,5 +1,6 @@
 import { PluginOption } from "vite";
 import Vue from "@vitejs/plugin-vue";
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 import Icons from 'unplugin-icons/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
@@ -8,6 +9,7 @@ import Unocss from 'unocss/vite'
 import Inspect from 'vite-plugin-inspect'
 import OptimizationPersist from 'vite-plugin-optimize-persist'
 import PkgConfig from 'vite-plugin-package-config'
+
 import { configPagesPlugin } from "./pages"
 import { configAutoImports } from "./autoImports"
 import { configMockPlugin } from "./mock"
@@ -28,6 +30,7 @@ export default function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
         Vue({
             reactivityTransform: true,
         }),
+        vueJsx(),
         vueSetupExtend(),
         Icons({
             compiler: "vue3",

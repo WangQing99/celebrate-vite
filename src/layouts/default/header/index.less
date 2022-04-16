@@ -1,0 +1,23 @@
+@header-trigger-prefix-cls: ~'@{namespace}-layout-header-trigger';
+@header-prefix-cls: ~'@{namespace}-layout-header';
+@breadcrumb-prefix-cls: ~'@{namespace}-layout-breadcrumb';
+@logo-prefix-cls: ~'@{namespace}-app-logo';
+
+.@{header-prefix-cls} {
+  display: flex;
+  height:  @header-height;
+  padding: 0;
+  margin-left: -1px;
+  line-height:  @header-height;
+  color: @white;
+  background-color: pink;
+  align-items: center;
+  justify-content: space-between;
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    width: 100%;
+  }
+}
