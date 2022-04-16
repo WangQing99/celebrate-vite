@@ -1,4 +1,5 @@
 import '@unocss/reset/tailwind.css'
+import "@/design/index.less"
 import 'uno.css'
 
 import { createApp } from "vue"

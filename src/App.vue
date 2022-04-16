@@ -1,7 +1,9 @@
 <script setup lang='ts'>
-
+import { AppProvider } from '@/components/Application';
 </script>
 
 <template>
-    <router-view />
+    <AppProvider>
+        <router-view />
+    </AppProvider>
 </template>
