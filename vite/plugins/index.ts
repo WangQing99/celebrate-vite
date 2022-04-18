@@ -17,6 +17,7 @@ import { configStyleImportPlugin } from "./styleImport";
 import { configSvgIconsPlugin } from "./svgIcons";
 import { configImageminPlugin } from "./imagemin";
 import { configCompressPlugin } from "./compress";
+import { configThemePlugin } from "./theme";
 
 export default function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     const {
@@ -56,10 +57,13 @@ export default function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
 
     // 组件样式自动导入
-    vitePlugins.push(configStyleImportPlugin())
+    vitePlugins.push(configStyleImportPlugin(isBuild))
 
     // svg
     vitePlugins.push(configSvgIconsPlugin(isBuild))
+
+    // theme
+    // vitePlugins.push(configThemePlugin(isBuild));
 
     if (isBuild) {
         // 图片优化处理

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { createAppProviderContext } from './useAppContext';
-import { prefixCls } from "@/settings/designSetting.ts";
+import { prefixCls } from "@/settings/designSetting";
 
 const props = {
     /**
@@ -16,8 +16,12 @@ export default defineComponent({
     props,
     setup(props, { slots }) {
 
+        const isMobile = ref(false); // 是否是移动端
+
+        const { prefixCls } = toRefs(props);
+
         // 注入全局变量
-        createAppProviderContext({ prefixCls });
+        createAppProviderContext({ prefixCls, isMobile });
 
         return () => slots.default?.();
     }
