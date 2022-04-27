@@ -18,6 +18,9 @@ type ShallowUnwrap<T> = {
     [P in keyof T]: UnwrapRef<T[P]>;
 };
 
+/**
+ * 将参数设置为响应式数据，并且是只读的，注入到全局
+ */
 export function createContext<T>(
     context: any,
     key: InjectionKey<T> = Symbol(),

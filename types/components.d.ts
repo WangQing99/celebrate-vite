@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     SimpleSubMenu: typeof import('./../src/components/SimpleMenu/src/SimpleSubMenu.vue')['default']
     SubMenuItem: typeof import('./../src/components/SimpleMenu/src/components/SubMenuItem.vue')['default']
     SvgIcon: typeof import('./../src/components/Icon/src/SvgIcon.vue')['default']
+    Transition: typeof import('../src/components/Transition/index.ts')['default']
   }
 }
 

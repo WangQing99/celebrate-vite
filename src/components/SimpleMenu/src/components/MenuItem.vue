@@ -3,6 +3,7 @@
 import { useDesign } from '@/hooks/web/useDesign';
 import { propTypes } from '@/utils/propTypes';
 import type { PropType } from 'vue';
+import { useMenuItem } from './useMenu';
 
 export default defineComponent({
     props: {
@@ -13,8 +14,11 @@ export default defineComponent({
         disabled: propTypes.bool,
     },
     setup(props) {
+        const instance = getCurrentInstance();
 
         const active = ref(false);
+
+        const { getItemStyle } = useMenuItem(instance)
 
         const { prefixCls } = useDesign('menu');
 
@@ -30,7 +34,8 @@ export default defineComponent({
         })
 
         return {
-            getClass
+            getClass,
+            getItemStyle
         }
     }
 })
@@ -38,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <li :class="getClass">
+    <li :class="getClass" :style="getItemStyle">
         <slot></slot>
         <slot name="title"></slot>
     </li>

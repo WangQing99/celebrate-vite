@@ -6,7 +6,8 @@ import { propTypes } from '@/utils/propTypes';
 export default defineComponent({
     name: 'Menu',
     props: {
-        collapse: propTypes.bool.def(true),
+        indentSize: propTypes.number.def(16),
+        collapse:propTypes.bool.def(false),
     },
     setup() {
 

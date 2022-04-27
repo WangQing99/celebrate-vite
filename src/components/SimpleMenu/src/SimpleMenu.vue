@@ -20,9 +20,28 @@ export default defineComponent({
             name: "哇哇哇哇",
             path: "/",
             icon: "carbon:airplay",
+            children: [
+              {
+                name: "主页面",
+                path: "/home",
+                icon: "carbon:home",
+                children: [
+                  {
+                    name: "哇哇哇哇",
+                    path: "/",
+                    icon: "carbon:airplay",
+                  },
+                ],
+              },
+            ]
           },
         ],
       },
+      {
+        name: "引导页",
+        path: "/setup",
+        icon: "carbon:3rd-party-connected",
+      }
     ];
 
     const { prefixCls } = useDesign("simple-menu");
