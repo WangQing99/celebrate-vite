@@ -1,29 +1,46 @@
-<script lang='ts'>
-import { useDesign } from '@/hooks/web/useDesign';
+<script lang="ts">
+import { useDesign } from "@/hooks/web/useDesign";
 
-import Menu from './components/Menu.vue';
-import SimpleSubMenu from './SimpleSubMenu.vue';
+import Menu from "./components/Menu.vue";
+import SimpleSubMenu from "./SimpleSubMenu.vue";
 
 export default defineComponent({
-    components: {
-        Menu,
-        SimpleSubMenu
-    },
-    setup() {
+  components: {
+    Menu,
+    SimpleSubMenu,
+  },
+  setup() {
+    const items = [
+      {
+        name: "主页面",
+        path: "/home",
+        icon: "carbon:home",
+        children: [
+          {
+            name: "哇哇哇哇",
+            path: "/",
+            icon: "carbon:airplay",
+          },
+        ],
+      },
+    ];
 
-        const { prefixCls } = useDesign("simple-menu")
+    const { prefixCls } = useDesign("simple-menu");
 
-        return {
-            prefixCls
-        }
-    }
-})
+    return {
+      items,
+      prefixCls,
+    };
+  },
+});
 </script>
 
 <template>
-    <Menu :class="prefixCls">
-        <SimpleSubMenu :parent="true"></SimpleSubMenu>
-    </Menu>
+  <Menu :class="prefixCls">
+    <template v-for="item in items" :key="item.path">
+      <SimpleSubMenu :item="item" :parent="true"></SimpleSubMenu>
+    </template>
+  </Menu>
 </template>
 
 <style lang="less">

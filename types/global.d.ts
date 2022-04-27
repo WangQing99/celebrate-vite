@@ -4,6 +4,9 @@ import type {
 
 declare global {
 
+    // vue
+    declare type PropType<T> = VuePropType<T>;
+
     declare type Nullable<T> = T | null;
     declare type NonNullable<T> = T extends null | undefined ? never : T;
     declare type Recordable<T = any> = Record<string, T>;

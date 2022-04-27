@@ -9,6 +9,9 @@
     "build:test": "cross-env vite build --mode test",
     "test:gzip": "npx http-server dist --cors --gzip -c-1"
   },
+  "resolutions": {
+    "bin-wrapper": "npm:bin-wrapper-china"
+  },
   "dependencies": {
     "@vue/runtime-core": "^3.2.32",
     "@vue/shared": "^3.2.33",
@@ -55,6 +58,7 @@
     "vite-plugin-theme": "^0.8.6",
     "vite-plugin-vue-layouts": "^0.6.0",
     "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vite-plugin-imagemin": "^0.6.1",
     "vue-types": "^4.1.1"
   }
 }
