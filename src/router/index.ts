@@ -1,16 +1,13 @@
 import type { RouteRecordRaw } from 'vue-router';
 import type { App } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router'
-import generatedRoutes from 'virtual:generated-pages'
-import { setupLayouts } from 'virtual:generated-layouts'
 
-const routes = setupLayouts(generatedRoutes)
+import { basicRoutes } from './routes';
 
-console.log(routes);
 
 export const router = createRouter({
     history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
-    routes: routes as RouteRecordRaw[],
+    routes: basicRoutes as unknown as RouteRecordRaw[],
     strict: true,
     scrollBehavior: () => ({ left: 0, top: 0 }),
 });

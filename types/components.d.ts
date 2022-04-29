@@ -5,7 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AButton: typeof import('ant-design-vue/es')['Button']
     AppProvider: typeof import('./../src/components/Application/src/AppProvider.vue')['default']
     BasicMenu: typeof import('./../src/components/Menu/src/BasicMenu.vue')['default']
     BasicSubMenuItem: typeof import('./../src/components/Menu/src/components/BasicSubMenuItem.vue')['default']
@@ -18,7 +17,6 @@ declare module '@vue/runtime-core' {
     SimpleSubMenu: typeof import('./../src/components/SimpleMenu/src/SimpleSubMenu.vue')['default']
     SubMenuItem: typeof import('./../src/components/SimpleMenu/src/components/SubMenuItem.vue')['default']
     SvgIcon: typeof import('./../src/components/Icon/src/SvgIcon.vue')['default']
-    Transition: typeof import('../src/components/Transition/index.ts')['default']
   }
 }
 

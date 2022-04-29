@@ -48,7 +48,7 @@ export default function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     ]
 
     // 生成页面和layout
-    vitePlugins.push(configPagesPlugin())
+    // vitePlugins.push(configPagesPlugin())
 
     // 自动导入组件和api
     vitePlugins.push(configAutoImports())

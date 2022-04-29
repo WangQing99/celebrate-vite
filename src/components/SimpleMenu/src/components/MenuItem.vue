@@ -1,9 +1,10 @@
 <script lang="ts">
+import type { PropType } from 'vue';
 
 import { useDesign } from '@/hooks/web/useDesign';
 import { propTypes } from '@/utils/propTypes';
-import type { PropType } from 'vue';
 import { useMenuItem } from './useMenu';
+import { useSimpleRootMenuContext } from './useSimpleMenuContext';
 
 export default defineComponent({
     props: {
@@ -22,6 +23,8 @@ export default defineComponent({
 
         const { prefixCls } = useDesign('menu');
 
+        const { rootMenuEmitter } = useSimpleRootMenuContext()
+
         const getClass = computed(() => {
             return [
                 `${prefixCls}-item`,
@@ -33,9 +36,14 @@ export default defineComponent({
             ]
         })
 
+        function handleClickItem() {
+            rootMenuEmitter.emit('on-menu-item-select', props.name);
+        }
+
         return {
             getClass,
-            getItemStyle
+            getItemStyle,
+            handleClickItem
         }
     }
 })
@@ -43,7 +51,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <li :class="getClass" :style="getItemStyle">
+    <li :class="getClass" @click.stop="handleClickItem" :style="getItemStyle">
         <slot></slot>
         <slot name="title"></slot>
     </li>

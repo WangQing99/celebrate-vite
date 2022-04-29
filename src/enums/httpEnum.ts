@@ -1,14 +1,23 @@
 /**
- * 请求结果枚举
+ * @description: 请求结果枚举
  */
 export enum ResultEnum {
     SUCCESS = 200,
     error = -1,
+    TIMEOUT = 401,
     TYPE = 'success'
 }
 
 /**
- * contentType枚举
+ * @description: 请求方法
+ */
+export enum RequestEnum {
+    GET = 'GET',
+    POST = 'POST',
+}
+
+/**
+ * @description: contentType枚举
  */
 export enum ContentTypeEnum {
     // json

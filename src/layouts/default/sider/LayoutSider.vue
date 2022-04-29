@@ -1,4 +1,5 @@
 <script lang='ts'>
+import type { CSSProperties } from 'vue';
 import { Layout } from 'ant-design-vue';
 import LayoutMenu from "../menu/index.vue"
 import { useDesign } from "@/hooks/web/useDesign"
@@ -21,8 +22,21 @@ export default defineComponent({
             ]
         })
 
+        const getHiddenDomStyle = computed((): CSSProperties => {
+        const width = `200px`;
         return {
-            getSiderClass
+          width: width,
+          overflow: 'hidden',
+          flex: `0 0 ${width}`,
+          maxWidth: width,
+          minWidth: width,
+          transition: 'all 0.2s',
+        };
+      });
+
+        return {
+            getSiderClass,
+            getHiddenDomStyle
         }
     }
 })
@@ -30,9 +44,11 @@ export default defineComponent({
 </script>
 
 <template>
-    <Sider :class="getSiderClass">
-        <LayoutMenu></LayoutMenu>
-    </Sider>
+    <div :style="getHiddenDomStyle">
+        <Sider :class="getSiderClass">
+            <LayoutMenu></LayoutMenu>
+        </Sider>
+    </div>
 </template>
 
 <style lang="less">
