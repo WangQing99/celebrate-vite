@@ -17,11 +17,38 @@ export class Axios {
     constructor(options: CreateAxiosOptions) {
         this.options = options;
         this.axiosInstance = axios.create(options);
+        this.setupInterceptors();
     }
 
     private getTransform() {
         const { transform } = this.options;
         return transform;
+    }
+
+    private setupInterceptors() {
+        const transform = this.getTransform();
+        if (!transform) {
+            return;
+        }
+        const {
+            requestInterceptors,
+            responseInterceptors,
+        } = transform;
+
+
+        this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
+            if (requestInterceptors && isFunction(requestInterceptors)) {
+                config = requestInterceptors(config, this.options);
+            }
+            return config;
+        })
+
+        this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
+            if (responseInterceptors && isFunction(responseInterceptors)) {
+                res = responseInterceptors(res);
+            }
+            return res;
+        }, undefined);
     }
 
     get<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {

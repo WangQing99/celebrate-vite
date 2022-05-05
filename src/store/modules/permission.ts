@@ -4,9 +4,12 @@ import { store } from '@/store';
 import { defineStore } from 'pinia';
 
 import { asyncRoutes } from '@/router/routes';
-
+import { transformRouteToMenu } from '@/router/helper/menuHelper';
+import { flatMultiLevelRoutes, transformObjToRoute } from '@/router/helper/routeHelper';
 import { filter } from '@/utils/helper/treeHelper';
-import { transformRouteToMenu } from '@/utils/helper/menuHelper';
+import { useMessage } from "@/hooks/web/useMessage"
+import { getMenuList } from '@/api/sys/menu';
+import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic';
 
 interface PermissionState {
     isDynamicAddedRoute: boolean;
@@ -19,6 +22,7 @@ export const usePermissionStore = defineStore({
     state: (): PermissionState => ({
         backMenuList: [],
         isDynamicAddedRoute: false,
+        // menu List
         frontMenuList: [],
     }),
     getters: {
@@ -45,16 +49,38 @@ export const usePermissionStore = defineStore({
         async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
             let routes: AppRouteRecordRaw[] = [];
 
-            // 路由过滤条件
-            const routeFilter = () => {
-                return true;
+            const routeRemoveIgnoreFilter = (route: AppRouteRecordRaw) => {
+                const { meta } = route;
+                const { ignoreRoute } = meta || {};
+                return !ignoreRoute;
             };
 
-            routes = filter(asyncRoutes, routeFilter);
-            routes = routes.filter(routeFilter);
-            const menuList = transformRouteToMenu(routes, true);
-            
-            this.setBackMenuList(menuList);
+            const { createMessage } = useMessage();
+
+            createMessage.loading({
+                content: "菜单加载中...",
+                duration: 1,
+            });
+
+            let routeList: AppRouteRecordRaw[] = [];
+            try {
+                routeList = (await getMenuList()) as AppRouteRecordRaw[];
+            } catch (error) {
+                console.error(error);
+            }
+
+            // Dynamically introduce components
+            routeList = transformObjToRoute(routeList);
+            //  Background routing to menu structure
+            const backMenuList = transformRouteToMenu(routeList);
+            this.setBackMenuList(backMenuList);
+
+            // remove meta.ignoreRoute item
+            routeList = filter(routeList, routeRemoveIgnoreFilter);
+            routeList = routeList.filter(routeRemoveIgnoreFilter);
+
+            routeList = flatMultiLevelRoutes(routeList);
+            routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
 
             return routes;
         }

@@ -30,6 +30,13 @@ export function filter<T = any>(
     return listFilter(tree);
 }
 
+/**
+ * @description: Extract tree specified structure
+ */
+export function treeMap<T = any>(treeData: T[], opt: { children?: string; conversion: Fn }): T[] {
+    return treeData.map((item) => treeMapEach(item, opt));
+}
+
 
 /**
  * @description: Extract tree specified structure

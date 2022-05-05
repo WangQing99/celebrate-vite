@@ -1,10 +1,10 @@
-
-import type { AppRouteModule, AppRouteRecordRaw, Menu } from '@/router/types';
+import type { AppRouteModule, Menu, AppRouteRecordRaw } from '@/router/types';
 
 import { cloneDeep } from 'lodash-es';
 
-import { treeMapEach } from "./treeHelper"
+import { treeMap } from '@/utils/helper/treeHelper';
 import { isUrl } from '@/utils/is';
+
 
 function joinParentPath(menus: Menu[], parentPath = '') {
     for (let index = 0; index < menus.length; index++) {
@@ -20,13 +20,6 @@ function joinParentPath(menus: Menu[], parentPath = '') {
             joinParentPath(menu.children, menu.meta?.hidePathForChildren ? parentPath : menu.path);
         }
     }
-}
-
-/**
- * @description: Extract tree specified structure
- */
-export function treeMap<T = any>(treeData: T[], opt: { children?: string; conversion: Fn }): T[] {
-    return treeData.map((item) => treeMapEach(item, opt));
 }
 
 export function transformRouteToMenu(routeModList: AppRouteModule[], routerMapping = false) {

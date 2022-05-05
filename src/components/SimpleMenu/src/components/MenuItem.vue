@@ -19,11 +19,11 @@ export default defineComponent({
 
         const active = ref(false);
 
-        const { getItemStyle } = useMenuItem(instance)
+        const { getItemStyle, getParentList } = useMenuItem(instance)
 
         const { prefixCls } = useDesign('menu');
 
-        const { rootMenuEmitter } = useSimpleRootMenuContext()
+        const { rootMenuEmitter, activeName } = useSimpleRootMenuContext()
 
         const getClass = computed(() => {
             return [
@@ -39,6 +39,26 @@ export default defineComponent({
         function handleClickItem() {
             rootMenuEmitter.emit('on-menu-item-select', props.name);
         }
+
+        watch(
+            () => activeName.value,
+            (name) => {
+                if (name === props.name) {
+                    const { list, uidList } = getParentList();
+                    active.value = true;
+                    list.forEach((item) => {
+                        if (item.proxy) {
+                            (item.proxy as any).active = true;
+                        }
+                    });
+
+                    rootMenuEmitter.emit('on-update-active-name:submenu', uidList);
+                } else {
+                    active.value = false;
+                }
+            },
+            { immediate: true },
+        );
 
         return {
             getClass,

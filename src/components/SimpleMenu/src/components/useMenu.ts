@@ -53,8 +53,29 @@ export function useMenuItem(instance: ComponentInternalInstance | null) {
         return parent;
     }
 
+    function getParentList() {
+        let parent = instance;
+        if (!parent)
+          return {
+            uidList: [],
+            list: [],
+          };
+        const ret: any[] = [];
+        while (parent && parent.type.name !== 'Menu') {
+          if (parent.type.name === 'SubMenu') {
+            ret.push(parent);
+          }
+          parent = parent.parent;
+        }
+        return {
+          uidList: ret.map((item) => item.uid),
+          list: ret,
+        };
+      }
+
 
     return {
-        getItemStyle
+        getItemStyle,
+        getParentList
     }
 }

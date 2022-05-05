@@ -45,10 +45,10 @@ export function pagination<T = any>(pageNo: number, pageSize: number, array: T[]
 export interface requestParams {
     method: string;
     body: any;
-    headers?: { Authorization?: string };
+    headers?: { authorization?: string };
     query: any;
 }
 
 export function getRequestToken({ headers }: requestParams): string | undefined {
-    return headers?.Authorization;
+    return headers?.authorization;
 }
