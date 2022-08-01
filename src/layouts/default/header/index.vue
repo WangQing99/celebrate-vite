@@ -25,8 +25,6 @@ export default defineComponent({
             ]
         })
 
-        console.log(getHeaderClass.value);
-
         return {
             getHeaderClass
         }

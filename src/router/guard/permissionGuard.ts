@@ -7,6 +7,7 @@ export function createPermissionGuard(router: Router) {
     router.beforeEach(async (to, from, next) => {
         const permissionStore = usePermissionStoreWithOut();
 
+        // 判断有没有添加过动态路由，添加过了直接跳过
         if (permissionStore.getIsDynamicAddedRoute) {
             next();
             return;

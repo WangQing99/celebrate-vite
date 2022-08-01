@@ -31,7 +31,7 @@ export function filter<T = any>(
 }
 
 /**
- * @description: Extract tree specified structure
+ * @description: 提取树指定结构
  */
 export function treeMap<T = any>(treeData: T[], opt: { children?: string; conversion: Fn }): T[] {
     return treeData.map((item) => treeMapEach(item, opt));
@@ -39,7 +39,7 @@ export function treeMap<T = any>(treeData: T[], opt: { children?: string; conver
 
 
 /**
- * @description: Extract tree specified structure
+ * @description: 提取树指定结构
  */
 export function treeMapEach(
     data: any,

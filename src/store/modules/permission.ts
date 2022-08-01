@@ -3,7 +3,6 @@ import type { Menu, AppRouteRecordRaw } from "@/router/types"
 import { store } from '@/store';
 import { defineStore } from 'pinia';
 
-import { asyncRoutes } from '@/router/routes';
 import { transformRouteToMenu } from '@/router/helper/menuHelper';
 import { flatMultiLevelRoutes, transformObjToRoute } from '@/router/helper/routeHelper';
 import { filter } from '@/utils/helper/treeHelper';
@@ -49,6 +48,7 @@ export const usePermissionStore = defineStore({
         async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
             let routes: AppRouteRecordRaw[] = [];
 
+            // 过滤掉需要忽略的路由
             const routeRemoveIgnoreFilter = (route: AppRouteRecordRaw) => {
                 const { meta } = route;
                 const { ignoreRoute } = meta || {};
@@ -63,22 +63,22 @@ export const usePermissionStore = defineStore({
             });
 
             let routeList: AppRouteRecordRaw[] = [];
+            // 查询接口获取菜单
             try {
                 routeList = (await getMenuList()) as AppRouteRecordRaw[];
             } catch (error) {
                 console.error(error);
             }
-
-            // Dynamically introduce components
+            // 动态导入组件
             routeList = transformObjToRoute(routeList);
-            //  Background routing to menu structure
+            // 后台路由到菜单结构
             const backMenuList = transformRouteToMenu(routeList);
             this.setBackMenuList(backMenuList);
 
-            // remove meta.ignoreRoute item
+            // 删除 meta.ignoreRoute 路由
             routeList = filter(routeList, routeRemoveIgnoreFilter);
-            routeList = routeList.filter(routeRemoveIgnoreFilter);
 
+            // 将多级路由转换为 2 级路由
             routeList = flatMultiLevelRoutes(routeList);
             routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
 

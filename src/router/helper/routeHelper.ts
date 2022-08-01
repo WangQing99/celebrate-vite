@@ -16,18 +16,24 @@ LayoutMap.set('IFRAME', IFRAME);
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>;
 
-// Dynamic introduction
+/**
+ * 动态导入路由
+ * @param routes
+ */
 function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../pages/**/*.{vue,tsx}');
   if (!routes) return;
   routes.forEach((item) => {
+    // 检查是不是iframe
     if (!item.component && item.meta?.frameSrc) {
       item.component = 'IFRAME';
     }
     const { component, name } = item;
     const { children } = item;
+    // 如果存在则加载，不存则是父级layout
     if (component) {
       const layoutFound = LayoutMap.get(component.toUpperCase());
+      // 如果是布局组件则直接获取，否则检查组件是否合法，如果合法则动态加载
       if (layoutFound) {
         item.component = layoutFound;
       } else {
@@ -40,6 +46,9 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   });
 }
 
+/**
+ *  检查需要动态导入的文件是否合法
+ */
 function dynamicImport(
   dynamicViewsModules: Record<string, () => Promise<Recordable>>,
   component: string,
@@ -53,10 +62,12 @@ function dynamicImport(
     const lastIndex = endFlag ? k.length : k.lastIndexOf('.');
     return k.substring(startIndex, lastIndex) === component;
   });
+  // 如果没有问题则返回
   if (matchKeys?.length === 1) {
     const matchKey = matchKeys[0];
     return dynamicViewsModules[matchKey];
   } else if (matchKeys?.length > 1) {
+    // 检查是否有重复创建的.vue和tsx文件
     warn(
       'Please do not create `.vue` and `.TSX` files with the same file name in the same hierarchical directory under the views folder. This will cause dynamic introduction failure',
     );
@@ -72,6 +83,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
   routeList.forEach((route) => {
     const component = route.component as string;
     if (component) {
+      // 如果组件为LAYOUT或IFRAME，则获取对应的容器组件，否则就是一层的，则转换一下，便于处理
       if (component.toUpperCase() === 'LAYOUT') {
         route.component = LayoutMap.get(component.toUpperCase());
       } else {
@@ -93,7 +105,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
 }
 
 /**
- * Convert multi-level routing to level 2 routing
+ * 将多级路由转换为 2 级路由
  */
 export function flatMultiLevelRoutes(routeModules: AppRouteModule[]) {
   const modules: AppRouteModule[] = cloneDeep(routeModules);
